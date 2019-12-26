@@ -30,7 +30,7 @@ export class JiraStatusMapComponent {
     displaySourceSelect: boolean = false;
 
     fromStatus: string[];// statuses for user
-    toStatus:   string[];// statuses for pde
+    toStatus:   string[];// statuses for aegis
     filteredStatuses: string[];
     statusTagMap: Map<string, string>;
 
@@ -246,7 +246,7 @@ export class JiraStatusMapComponent {
             }
         })
 
-        // field maps can take zero length values, as PDE just uses the default value
+        // field maps can take zero length values, as Aegis just uses the default value
 
         if (valid) {
             stepper.next();

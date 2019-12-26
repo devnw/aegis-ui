@@ -97,14 +97,14 @@
                     </select>
                     <div *ngIf="f.submitted && !configss.valid" class="help-block">JobConfig is required</div>
               </div>
-                   <div class="form-group"[ngClass]="{ 'has-error': f.submitted && !pdestatuses.valid }" >
+                   <div class="form-group"[ngClass]="{ 'has-error': f.submitted && !aegisstatuses.valid }" >
                   <label for="configid">Status</label>
-                  <select class="form-control input-margins" name="pdestatuses" [(ngModel)]="job.status" #pdestatuses="ngModel" required >
+                  <select class="form-control input-margins" name="aegisstatuses" [(ngModel)]="job.status" #aegisstatuses="ngModel" required >
                       <option  *ngFor="let status of statuses" value= {{status.code}}>
                         {{status.name}}
                       </option>
                     </select>
-                    <div *ngIf="f.submitted && !pdestatuses.valid" class="help-block">Status is required</div>
+                    <div *ngIf="f.submitted && !aegisstatuses.valid" class="help-block">Status is required</div>
               </div>
               <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !payload.valid }">
                   <label for="payload">payload</label>
