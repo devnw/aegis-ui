@@ -1,0 +1,28 @@
+<h1>Dashboard</h1>
+
+<div class="ui-g ui-fluid">
+
+    <div class="ui-g-12 ui-lg-6">
+
+        <div class="card">
+            <h1 class="centerText">Ticket Status Breakdown</h1>
+            <p-chart type="pie" [data]="pieData"></p-chart>
+        </div>
+
+    </div>
+
+    <div class="ui-g-12 ui-lg-6">
+
+        <div class="card">
+            <h1 class="centerText">Tickets closed within (days) 
+                <span [style.color]="getColor()">
+                    <i class="fa fa-spinner fa-spin" *ngIf="!burnDownDoneLoading"></i> <i *ngIf="!burnDownDoneLoading">Loading</i>                
+                </span>
+            </h1>
+            
+            <p-chart type="bar" [data]="barData" [options]="options"></p-chart>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,132 @@
+<div>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <h2>Tag Management</h2>
+
+    <p-dialog [(visible)]="display" modal="true">
+        {{displayMessage}}
+        <p-footer>
+                <p-button label="Yes" (onClick)="forceCreateTag($event)"></p-button>
+                <p-button label="No" (onClick)="display=false;"></p-button>
+        </p-footer>
+        
+    </p-dialog>
+
+    <mat-horizontal-stepper [linear]="true" #stepper>
+        
+        <mat-step>
+            
+            <div class="ui-g ui-fluid">
+                <ng-template matStepLabel>Select Cloud Provider</ng-template>
+                
+                <div>
+                    <p-selectButton [options]="sources" [(ngModel)]="selectedSource" [style]="{'width':'200%'}" (onChange)="cloudServiceSelected($event, stepper)"></p-selectButton>
+
+                    <div *ngIf="selectedSource != undefined && selectedSource.length > 0">
+                        <br>
+                        <br>
+                        <button mat-button (click)="updateExistingTagsFromDb()" matStepperNext type="button">Next</button>
+                    </div>
+        
+                </div>
+
+               
+            </div>
+
+            
+            
+        </mat-step>
+        
+        <mat-step label="Mapping">
+
+            <div *ngIf="availableTagsForSource == undefined || availableTagsForSource.length == 0">
+                <h3>Loading cloud tags...</h3>
+            </div>
+
+            <div class="ui-g-12 ui-md-6 ui-g-nopad drag-column">
+                <ul style="margin:0;padding:0">
+                    <li *ngFor="let tag of availableTagsForSource" class="ui-helper-clearfix" pDraggable="tags"
+                        (onDragStart)="dragStart($event, tag)" (onDragEnd)="dragEnd($event)">
+                        <i class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
+                        <div style="margin:8px 0 0 8px;float:left">{{tag}}</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div *ngIf="jiraTags == undefined || jiraTags.length == 0">
+                <h3>Loading ticketing tags...</h3>
+            </div>
+
+            <div *ngIf="jiraTags != undefined && jiraTags.length > 0">
+        
+                <div *ngFor="let jiraTag of jiraTags">
+
+                    <div class="ui-g-12 ui-md-6 drop-column" pDroppable="tags" (onDrop)="drop($event)">
+                        <p-table [value]="jiraTagMap.get(jiraTag)">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>{{jiraTag}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-tag>
+                                <tr>
+                                    <td>{{tag}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+            <br>
+            <button mat-button (click)="updateExistingTagsFromDb()" matStepperPrevious type="button">Back</button>
+            <button mat-button (click)="updateExistingTagsFromDb()" matStepperNext type="button">Next</button>
+
+
+        </mat-step>
+
+        <mat-step label="Options">
+
+            <p-table [columns]="cols" [value]="tags" [resizableColumns]="true" columnResizeMode="expand">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" pResizableColumn>
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-tag>
+                   
+                    <tr>
+
+                        <td>{{tag['cloud_source']}}</td>
+                        <td>{{tag['cloud_tag']}}</td>
+                        <td>{{tag['ticket_tag']}}</td>
+
+                        <div style="position:absolute;overflow: visible;">
+                            <p-dropdown [(ngModel)]="tag.option" [options]="mapOptions" autoWidth="true" optionLabel="field" (onChange)="optionSelected($event, tag)"></p-dropdown>
+                        </div>                    
+                        <!-- <select [(ngModel)]="tag.option">
+                            <option *ngFor="let x of mapOptions" [value]="x.field" [selected]="tag.option == x.field">{{tag.option}}</option>
+                        </select> -->
+                        
+                    </tr>
+
+                </ng-template>
+                
+            </p-table>
+
+            <br>
+            <br>
+
+            <p-button (onClick)="buttonSaveTags()" class="ui-button-secondary" icon="fa fa-check" label="Save"></p-button>
+
+        </mat-step>
+
+    </mat-horizontal-stepper>
+
+</div>

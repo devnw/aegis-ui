@@ -1,0 +1,29 @@
+<div>
+    <h2>Users</h2>
+    
+    <br>
+    
+    <p-table [columns]="cols" [value]="users" [resizableColumns]="true" columnResizeMode="expand">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th>ID</th>
+                <th *ngFor="let col of columns" pResizableColumn>
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td><a [routerLink]="['/users/'+rowData['id']]">{{rowData['id']}}</a> </td>
+                <td *ngFor="let col of columns" class="ui-resizable-column">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <br>
+
+    <p-button label="Create new user" icon="fa fa-plus" (onClick)="handleClick()"></p-button>
+
+</div>

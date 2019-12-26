@@ -1,0 +1,59 @@
+<h1>Vulnerabilities</h1>
+
+<p-tabView>
+
+    <div *ngFor="let table of tables">
+        <p-tabPanel header="{{table?.source}}">
+            
+            <p-table>
+                <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let col of cols">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                </ng-template>
+            </p-table>
+
+            <p-table [value]="table?.vulnerabilities" [responsive]="true" [paginator]="true" [rows]="10" selectionMode="single"
+                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" [(selection)]="selectedLog"> 
+
+                <ng-template pTemplate="body" let-vulnerability let-columns="columns">
+                    <tr [pSelectableRow]="vulnerability">
+                        <td *ngFor="let col of cols" >
+                                {{vulnerability[col.field] | truncate:[150]}}
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+                
+        </p-tabPanel>
+    </div>
+
+    <!-- <p-tabPanel header="Matched">
+            <p-table>
+                <ng-template pTemplate="header">
+                        <tr>
+                            <th *ngFor="let col of matchCols">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                </ng-template>
+            </p-table>
+
+            <p-table [value]="matches" [responsive]="true" [paginator]="true" [rows]="10" selectionMode="single">
+                
+
+                <ng-template pTemplate="body" let-match let-columns="columns">
+                    <tr [pSelectableRow]="match">
+                        <td *ngFor="let col of matchCols" >
+                                {{match[col.field] | truncate:[150]}}
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+    </p-tabPanel> -->
+
+</p-tabView>

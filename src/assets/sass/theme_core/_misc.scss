@@ -1,0 +1,56 @@
+body {
+    .ui-progressbar {
+        border: $progressBarBorder;
+        height: $progressBarHeight;
+        background-color: $progressBarBgColor;
+        
+        .ui-progressbar-value {
+            border: 0 none;
+            margin: 0;
+            background: $progressBarValueBgColor;
+        }
+        
+        .ui-progressbar-label {
+            margin-top: 0;
+            color: $textColor;
+            display: none !important;
+        }
+    }
+
+    .ui-galleria {
+        .ui-galleria-nav-prev,
+        .ui-galleria-nav-next {
+            @include transition(all $transitionDuration);
+            position: absolute;
+            color: $textSecondaryColor;
+            
+            &:hover {
+                @include scale(1.2);
+            }
+        }
+
+        .ui-galleria-nav-prev {
+            font-size: $fontSize + 2;
+        }
+
+        .ui-galleria-nav-next {
+            font-size: $fontSize + 2;
+        }
+    }
+    
+    .ui-terminal {
+        background-color: $panelContentBgColor;
+        color: $panelContentTextColor;
+        border: $panelContentBorder;
+        padding: $panelContentPadding;
+
+        .ui-terminal-input {
+            font-size: $fontSize;
+            height: $fontSize + 2;
+        }
+
+        .ui-terminal-command {
+            height: $fontSize + 2;
+        }
+    }
+}

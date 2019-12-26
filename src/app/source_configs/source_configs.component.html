@@ -1,0 +1,102 @@
+<h1>Source Configs</h1>
+<br>
+
+
+<p-dialog [(visible)]="!hideEdit" header="Edit Source Config" [closable]="false">
+    <div *ngIf="selectedSourceObj != null">
+        <div *ngFor="let col of editableCols">
+            <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="selectedSourceObj[col.field]"></textarea>
+            {{col.header}}
+            <br>
+        </div>
+
+        <div *ngIf="selectedSourceObj.source=='JIRA'">
+            <div *ngFor="let jiraCol of jiraCols">
+                <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="selectedSourceObj[jiraCol.field]"></textarea>
+                {{jiraCol.header}}
+                <br>
+            </div>
+        </div>
+
+        <p-button label="Update" (onClick)="updateSource()"></p-button>
+        <p-button label="Delete" (onClick)="deleteSource()"></p-button>
+        <p-button label="Cancel" (onClick)="cancelSource()"></p-button>
+    </div> 
+</p-dialog>
+
+
+<p-dialog [(visible)]="!hideCreate" header="Create Source Config" [closable]="false">
+    <div *ngIf="newSourceObj != null">
+
+        <p-dropdown [(ngModel)]="selectedCreateSource" [options]="possibleSourcesNoAny" [showClear]="true" placeholder="Select" (onChange)="newFilterSelectedCreate($event)"></p-dropdown>
+        Source
+        <br>
+
+        <div *ngFor="let col of createCols">
+            <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="newSourceObj[col.field]"></textarea>
+            {{col.header}}
+            <br>
+        </div>
+        <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="newSourceObj['password']"></textarea>
+        Password
+        <br>
+
+        <div *ngIf="selectedCreateSource=='JIRA'">
+            <div *ngFor="let jiraCol of jiraCols">
+                <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="newSourceObj[jiraCol.field]"></textarea>
+                {{jiraCol.header}}
+                <br>
+            </div>
+        </div>
+
+        <p-button label="Finish" (onClick)="createSource()"></p-button>
+        <p-button label="Cancel" (onClick)="cancelCreate()"></p-button>
+    </div>
+</p-dialog>
+
+
+
+<p-table>
+    <ng-template pTemplate="header">
+        
+        <tr>
+            <th>
+                Filter by source
+            </th>
+            <th >
+                <p-dropdown [(ngModel)]="selectedSource" [options]="possibleSources" [style]="{'width':'100%'}" [showClear]="true" placeholder="Any" (onChange)="newFilterSelected($event)"></p-dropdown>
+          </th>
+        </tr>
+
+
+    </ng-template>
+</p-table>
+
+
+<div *ngIf="filteredSources != null">
+    <p-table [value]="filteredSources" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords" selectionMode="single"
+    (onRowSelect)="onRowSelect()" (onRowUnselect)="onRowUnselect()" [(selection)]="selectedSourceObj">
+        <ng-template pTemplate="header">
+            
+            <tr>
+                <th *ngFor="let col of cols">
+                    {{col.header}}
+                </th>
+            </tr>
+
+        </ng-template>
+
+        
+            <ng-template pTemplate="body" let-source let-columns="columns">
+                <tr [pSelectableRow]="source">
+                    <td *ngFor="let col of cols" >
+                            {{source[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+
+    </p-table>
+</div>
+
+
+<p-button label="Create new source config" (onClick)="createSourceButton()"></p-button>

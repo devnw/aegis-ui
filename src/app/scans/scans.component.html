@@ -1,0 +1,53 @@
+<h2>Scans</h2>
+
+<div *ngIf="selectedScan != null">
+    <p-dialog header="Scan: {{selectedScan['scan_id']}}" [(visible)]="display" [width]="1000" positionLeft="0" positionTop="0">
+        Tickets: {{ticketsMessage}}
+        <br>
+        <br>
+        Devices: {{devicesMessage}}
+    </p-dialog>
+</div>
+
+
+<p-dropdown [(ngModel)]="selectedMethod" [options]="methodsOfDiscovery" [style]="{'width':'25%'}" [showClear]="true" placeholder="Select a method of discovery" (onChange)="selectMod($event)"></p-dropdown>
+<p-checkbox [(ngModel)]="filterFinished" binary="true" label="Filter finished out"></p-checkbox>
+<p-checkbox [(ngModel)]="onlyShowRunning" binary="true" label="Only show running"></p-checkbox>
+
+<br>
+<br>
+
+<div *ngIf="selectedMethod != null">
+    <i class="fa fa-spinner fa-spin" *ngIf="loadingScans"></i> <i *ngIf="loadingScans">Loading</i>                
+    <p-table [value]="scans" [responsive]="true"  [totalRecords]="totalRecords" selectionMode="single"
+    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" [(selection)]="selectedScan">
+    <!-- [paginator]="true" [rows]="10" -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of cols">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+
+
+        <ng-template pTemplate="body" let-scan let-columns="columns">
+            <tr [pSelectableRow]="scan" *ngIf="(!filterFinished || scan['status'].toLowerCase() != 'finished') && (!onlyShowRunning || scan['status'].toLowerCase() == 'processing')">
+                
+                <td *ngFor="let col of cols" >
+                          
+                    <span [style.color]="getColor(scan['status'])">  
+                        
+                        <i class="fa fa-spinner fa-spin" *ngIf="scan['status'].toLowerCase() == 'processing' && col.field == 'status'"></i>
+                        <i class="fa fa-exclamation-triangle" *ngIf="(scan['status'].toLowerCase() == 'canceled' || scan['status'].toLowerCase() == 'stopped') && col.field == 'status'"></i>
+                        <i class="fa fa-exclamation" *ngIf="scan['status'].toLowerCase() == 'error' && col.field == 'status'"></i>
+                        {{scan[col.field] | truncate:[150]}}
+                    </span>    
+                  
+                </td>
+
+            </tr>
+        </ng-template>
+    
+    </p-table>
+</div>

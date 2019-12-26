@@ -1,0 +1,8 @@
+a {
+  cursor: pointer;
+}
+
+.help-block {
+  font-size: 12px;
+  background: red !important;
+}

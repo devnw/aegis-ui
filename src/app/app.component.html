@@ -1,0 +1,42 @@
+<div class="layout-wrapper" [ngClass]="{'layout-horizontal': menuMode === 'horizontal',
+                                        'layout-static': menuMode === 'static',
+                                        'layout-slim': menuMode === 'slim',
+                                        'layout-slim-active': slimMenuActive && menuMode === 'slim',
+                                        'layout-slim-anchored': slimMenuAnchor,
+                                        'layout-slim-restore': (menuMode !== 'slim' && slimMenuAnchor),
+                                        'layout-toggle': menuMode === 'toggle',
+                                        'layout-toggle-active': toggleMenuActive,
+                                        'layout-overlay': menuMode === 'overlay',
+                                        'layout-overlay-active': overlayMenuActive,
+                                        'layout-light': lightMenu === true,
+                                        'layout-mobile-active': staticMenuMobileActive,
+                                        'layout-static-inactive': staticMenuDesktopInactive}" (click)="onLayoutClick()">
+    <div class="layout-main">
+
+        <p-growl life="3000"></p-growl>
+
+        <div *ngIf="!loginpage">
+            <app-topbar></app-topbar>
+        </div>
+        
+
+        <div class="layout-content">
+            <!-- TODO replace with Manhattan alert services -->
+            <alert></alert>
+            <router-outlet (activate)='onActivate($event)'></router-outlet>
+        </div>
+
+        
+        <div style="position: relative; bottom: 0px; width: 100%" *ngIf="!loginpage">
+            <app-footer></app-footer>
+        </div>
+        
+        <div class="layout-main-mask"></div>
+    </div>
+
+    <div *ngIf="!loginpage">
+        <app-rightpanel></app-rightpanel>
+        <app-menu [reset]="resetMenu"></app-menu>
+    </div>
+    
+</div>

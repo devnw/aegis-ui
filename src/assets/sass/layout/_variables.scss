@@ -1,0 +1,35 @@
+@import '../_variables';
+
+$bodyBgColor:#f4f3f8;
+
+//topbar
+$topbarBgColor:#ffffff;
+$topbarIconColor:#b6b7c2;
+$topbarIconHoverColor:#7f8087;
+$topbarIconActiveColor:#48494d;
+$topbarInputBorderColor:#d8dae2;
+$topbarSubmenuHoverBgColor:#f1f2f7;
+$topbarMobileMenuBgColor:#ffffff;
+
+//dark sidebar - default
+$sidebarBgColor:#2c2d3c;
+$menuitemIconBgColor:#1d1d26;
+$menuitemTextColor:#d9dae3;
+$menuitemHoverBgColor:#1d1d26;
+$submenuitemHoverBgColor:#242430;
+$activeMenuitemBgColor:#17171e;
+$submenuBgColor:#17171e;
+
+//light sidebar
+$lightSidebarBgColor:#f2f2f7;
+$lightSidebarMenuitemIconBgColor:#d9d9de;
+$lightSidebarMenuitemTextColor:#575867;
+$lightSidebarMenuitemHoverBgColor:#d9d9de;
+$lightSidebarSubmenuitemHoverBgColor:#d9d9de;
+$lightSidebarActiveMenuitemBgColor:#ffffff;
+$lightSidebarSubmenuBgColor:#ffffff;
+
+//misc
+$rightPanelBgColor:#ffffff;
+$mobileBreakpoint:1280px;
+$contentMobileMaskBgColor:#ffffff;

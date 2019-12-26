@@ -1,0 +1,243 @@
+<div>
+
+
+    <h3>Job Configs</h3>
+<br>
+    <p-table #dt [columns]="cols" [value]="jobConfigs"  [responsive]="true"
+    [paginator]="true"  [lazy]="true" (onLazyLoad)="loadLazy($event)" [rows]="10" [totalRecords]="totalRecords"  [loading]="loading">
+      <ng-template pTemplate="header">
+        <tr>
+            <div style="text-align:left">
+                <button type="button" pButton icon="fa fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+            </div>
+        </tr>
+          <tr>
+              <th></th>
+              <th *ngFor="let col of cols "[pSortableColumn]="col.field">
+                  {{col.header}}
+                <div *ngIf="col.field !== 'active'">
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </div>
+
+              </th>
+          </tr>
+          <tr>
+              <th></th>
+            <th *ngFor="let col of cols" [ngSwitch]="col.field">
+                <input pInputText *ngSwitchCase="'payload'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <p-dropdown *ngSwitchCase="'job_id'" [options]="jobTypesFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                <p-dropdown *ngSwitchCase="'data_in_source_config_id'" [options]="sourceConfigsFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                <p-dropdown *ngSwitchCase="'data_out_source_config_id'" [options]="sourceConfigsFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                <p-dropdown *ngSwitchCase="'continuous'" [options]="faleTrueFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                <p-dropdown *ngSwitchCase="'autostart'" [options]="faleTrueFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                <input pInputText *ngSwitchCase="'priority_override'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'wait_in_seconds'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'max_instances'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'updated_by'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'created_by'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'updated_date'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'created_date'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'last_job_start'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input pInputText *ngSwitchCase="'config_id'"  style="width:100%;" type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-jobConfig let-columns="columns">
+          <tr [pSelectableRow]="jobConfig">
+              <td style="text-align:center">
+                  <button  pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info input-margins" (click)="onRowSelect(jobConfig)"></button> <br>
+                  <button pButton type="button" pInitEditableRow icon="fa fa-fw fa-history" class="ui-button-info input-margins" (click)="onHistorySelect(jobConfig)"></button> <br>
+                  <button pButton type="button" pInitEditableRow icon="pi pi-info-circle" class="ui-button-info input-margins" (click)="onRowAudit(jobConfig)"></button>
+              </td>
+              <td *ngFor="let col of cols" >
+                  <div style="text-align:center" *ngIf="col.field === 'active'">
+                      <p-checkbox [(ngModel)]="jobConfig.active" [disabled]="true" binary="true"></p-checkbox>
+                  </div>
+                  <div style="text-align:center" *ngIf=" col.field === 'continuous'">
+                      <p-checkbox [(ngModel)]="jobConfig.continuous" [disabled]="true" binary="true"></p-checkbox>
+                  </div>
+                  <div style="text-align:center" *ngIf="col.field === 'autostart'">
+                      <p-checkbox [(ngModel)]="jobConfig.autostart" [disabled]="true" binary="true"></p-checkbox>
+                  </div>
+                <div style="text-align:center" *ngIf="!(col.field === 'active' || col.field === 'continuous' || col.field === 'autostart')">
+                    {{jobConfig[col.field]}}
+                </div>
+
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+
+  <p-dialog header="Job Configuration Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="620" styleClass="customDialog">
+      <div class="ui-grid-row">
+          <div class="ui-grid-col-12">
+              Choose to copy configuration from dropdown below or fill out the form:
+          </div>
+      </div>
+      <div class="ui-grid-row">
+          <div class="ui-grid-col-12">
+              <p-dropdown [options]="jobConfigsCopyVals" [style]="{'width':'100%'}" [(ngModel)]="jobConfigCopy" (onChange)="copyJobConfig()" optionLabel="config_id" ></p-dropdown>
+          </div>
+      </div>
+<br>
+      <form [formGroup]="userform" (ngSubmit)="save()">
+          <p-panel header="JobConfig Form" *ngIf="jobConfig">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Job Type *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <p-dropdown   [options]="jobTypes" optionLabel="name" placeholder="Select Job Type" formControlName="jobid" (onChange)="updateSourceIn()" [(ngModel)]="jobConfig.job_id" required  ></p-dropdown>
+                      </div>
+                      <div class="ui-grid-col-4">
+                          <p-message appendTo="body" severity="error" text="Job Type is required" *ngIf="!userform.controls['jobid'].valid&&userform.controls['jobid'].dirty"></p-message>
+                      </div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Source In *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <p-dropdown appendTo="body"  formControlName="sourcein" [options]="sourceInDynamic" [disabled]="disableSourceIn"  optionLabel="name" placeholder="Select Source In" [(ngModel)]="jobConfig.data_in_source_config_id" required ></p-dropdown>
+                        </div>
+                      <div class="ui-grid-col-4">
+                          <p-message severity="error" text="Source In is required" *ngIf="!userform.controls['sourcein'].valid&&userform.controls['sourcein'].dirty"></p-message>
+                      </div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Source Out *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <p-dropdown appendTo="body"  formControlName="sourceout" [options]="sourceOutDynamic" [disabled]="disableSourceOut" optionLabel="name" placeholder="Select Source Out" [(ngModel)]="jobConfig.data_out_source_config_id" required ></p-dropdown>
+                        </div>
+                      <div class="ui-grid-col-4">
+                          <p-message severity="error" text="Source out is required" *ngIf="!userform.controls['sourceout'].valid&&userform.controls['sourceout'].dirty"></p-message>
+                      </div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Continuous *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <p-dropdown appendTo="body" formControlName="cont"  [options]="faleTrueList" optionLabel="name" placeholder="Select True/False"  [(ngModel)]="jobConfig.continuous" required ></p-dropdown>
+                        </div>
+                      <div class="ui-grid-col-4">
+                          <p-message severity="error" text="Continuous is required" *ngIf="!userform.controls['cont'].valid&&userform.controls['cont'].dirty"></p-message>
+                      </div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Autostart *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <p-dropdown appendTo="body" formControlName="autost"  [options]="faleTrueList" optionLabel="name" placeholder="Select True/False"  [(ngModel)]="jobConfig.autostart" required ></p-dropdown>
+                 </div>
+                      <div class="ui-grid-col-4">
+                          <p-message severity="error" text="Autostart is required" *ngIf="!userform.controls['autost'].valid&&userform.controls['autost'].dirty"></p-message>
+                      </div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Priority Override *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <input type="text" formControlName="jobConfig.priority_override" [(ngModel)]="jobConfig.priority_override" pInputText/>
+                          <p-slider formControlName="jobConfig.priority_override"  [(ngModel)]="jobConfig.priority_override"></p-slider>
+                </div>
+                <div class="ui-grid-col-4"></div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Wait In Seconds *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <input type="text" formControlName="jobConfig.wait_in_seconds" pInputText [(ngModel)]="jobConfig.wait_in_seconds" />
+                          <p-slider formControlName="jobConfig.wait_in_seconds" [(ngModel)]="jobConfig.wait_in_seconds" ></p-slider>
+                        </div>
+                        <div class="ui-grid-col-4"></div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Max Instances *:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <input type="text"  formControlName="jobConfig.max_instances" pInputText [(ngModel)]="jobConfig.max_instances" />
+                          <p-slider formControlName="jobConfig.max_instances"  [(ngModel)]="jobConfig.max_instances"  ></p-slider>
+                          </div>
+                          <div class="ui-grid-col-4"></div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-2">
+                          Payload:
+                      </div>
+                      <div class="ui-grid-col-6">
+                          <p-chips [(ngModel)]="chipValues" formControlName="payload">
+                              <ng-template let-item pTemplate="item">
+                                  {{item}} <i class="fa fa-user" style="margin-right:2em"></i>
+                              </ng-template>
+                          </p-chips>
+                      </div>
+                      <div class="ui-grid-col-4"></div>
+                  </div>
+                  <div class="ui-grid-row">
+                      <div class="ui-grid-col-8"></div>
+                      <button type="button" pButton (click)="delete()" *ngIf="!newJobConfig" label="Delete"></button>
+                      <button pButton type="submit" label="Submit" [disabled]="!userform.valid"></button>
+                      <div class="ui-grid-col-2">
+                      </div>
+                      <div class="ui-grid-col-2"></div>
+                  </div>
+              </div>
+          </p-panel>
+      </form>
+  </p-dialog>
+
+  <p-dialog header="History for selected Config" [(visible)]="historyDisplayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="550" styleClass="customDialog">
+      <p-table [columns]="hcols" [value]="jobs"  [responsive]="true"
+      [lazy]="true" (onLazyLoad)="historyLoadJobsLazy($event)" [paginator]="true"
+      [rows]="10" [totalRecords]="htotalRecords" [loading]="hloading">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of hcols">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-job let-columns="columns">
+            <tr [pSelectableRow]="job">
+                <td *ngFor="let col of hcols" >
+                        {{job[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+  </p-dialog>
+
+  <p-dialog header="Audit table For Job config" [(visible)]="auditDisplayDialog" [responsive]="true" showEffect="fade" [modal]="true" styleClass="customDialog">
+
+    <p-table [columns]="auditCols" [value]="auditEntries"  [responsive]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of auditCols">
+                    {{col.name}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-audit let-columns="columns">
+            <tr>
+                <td *ngFor="let col of auditCols" >
+                        {{audit[col.val]}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+  </p-dialog>
+
+</div>

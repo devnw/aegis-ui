@@ -1,0 +1,71 @@
+<h2>Logs</h2>
+<br>
+<p-button label="Search" (onClick)="handleClick($event)"></p-button>
+
+<i class="fa fa-spinner fa-spin" *ngIf="loading"></i> <i *ngIf="loading">Loading</i>                
+
+<p-dialog [(visible)]="display">
+        {{selectedLogMessage}}
+        <br>
+        {{selectedLogError}}
+</p-dialog>
+
+<p-table>
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of cols">
+                {{col.header}}
+            </th>
+        </tr>
+
+        <tr>
+            <th *ngFor="let col of cols" [ngSwitch]="col.field">
+                <p-dropdown *ngSwitchCase="'methodOfDiscovery'" [(ngModel)]="selectedMethod" [options]="methodsOfDiscovery" [style]="{'width':'100%'}" [showClear]="true" placeholder="Select a MOD" ></p-dropdown>
+                <p-dropdown *ngSwitchCase="'jobType'" [(ngModel)]="selectedJobType" [options]="jobTypes" [style]="{'width':'100%'}" [showClear]="true" placeholder="Select a job type" ></p-dropdown>
+                <p-dropdown *ngSwitchCase="'logType'" [(ngModel)]="selectedLogType" [options]="logTypes" [style]="{'width':'100%'}" [showClear]="true" placeholder="Select a log type" ></p-dropdown>
+                <input *ngSwitchCase="'jobHistoryId'" [(ngModel)]="jobHistoryId" type="number" pInputText placeholder="Enter a job history id" > 
+          </th>
+        </tr>
+
+    </ng-template>
+</p-table>
+
+<p-table>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>From date (UTC)</th>
+            <th>To date (UTC)</th>
+        </tr>
+        
+        <tr>
+            <th>
+                <input type="datetime-local" [ngModel]="filterDateFrom | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="filterDateFrom = $event"/>
+            </th>
+            <th>
+                <input type="datetime-local" [ngModel]="filterDateTo | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="filterDateTo = $event"/>    
+            </th>
+        </tr>
+    </ng-template>
+</p-table>
+    
+<p-table [value]="logs" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords" selectionMode="single"
+    (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" [(selection)]="selectedLog">
+    
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of fields">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-log let-columns="columns">
+        <tr [pSelectableRow]="log">
+            <td *ngFor="let col of fields" >
+                    {{log[col.field] | truncate:[150]}}
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>

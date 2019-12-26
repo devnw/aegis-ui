@@ -1,0 +1,139 @@
+<h1>Status Mapping</h1>
+
+<p-dialog [(visible)]="displaySourceSelect" header="Select Source Config" [closable]="false">
+    <div *ngIf="selectedSourceObj != null">
+        <div *ngFor="let col of cols">
+            <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="selectedSourceObj[col.field]" disabled="true"></textarea>
+            {{col.header}}
+            <br>
+        </div>
+        <p-button label="Select" (onClick)="editAndContinue(stepper)"></p-button>
+        <p-button label="Cancel" (onClick)="displaySourceSelect=false"></p-button>
+    </div> 
+</p-dialog>
+
+<mat-horizontal-stepper [linear]="true" #stepper>
+        
+    <mat-step>
+        <div class="ui-g ui-fluid">
+            <ng-template matStepLabel>Existing or new source</ng-template>
+            <div>
+                <p-selectButton [options]="existingOrNew" [(ngModel)]="existingOrNewChoice" [style]="{'width':'200%'}" (onChange)="existingOrNewSelected($event, stepper)"></p-selectButton>
+            </div>
+        </div>
+    </mat-step>
+
+    <mat-step label="Edit or create source">
+        <div *ngIf="existingOrNewChoice != null">
+            <div *ngIf="existingOrNewChoice.toString() == existing">
+                
+                
+                
+                <h2>Edit an existing source</h2>
+
+                <div *ngIf="existingJiraSources != null">
+                    <p-table [value]="existingJiraSources" [responsive]="true" [paginator]="true" [rows]="10" [totalRecords]="totalRecords" selectionMode="single"
+                    (onRowSelect)="displaySourceSelect=true" (onRowUnselect)="displaySourceSelect=false" [(selection)]="selectedSourceObj">
+                        <ng-template pTemplate="header">
+                            
+                            <tr>
+                                <th *ngFor="let col of cols">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                
+                        </ng-template>
+                
+                        
+                        <ng-template pTemplate="body" let-source let-columns="columns">
+                            <tr [pSelectableRow]="source">
+                                <td *ngFor="let col of cols" >
+                                        {{source[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                
+                    </p-table>
+                </div>
+            </div>
+
+
+
+
+            <div *ngIf="existingOrNewChoice.toString() == new">
+                <h2>Create a new source</h2>
+
+                <div *ngIf="newSourceObj != null">
+                    <div *ngFor="let col of colsCreatePopup">
+                        <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="newSourceObj[col.field]"></textarea>
+                        {{col.header}}
+                        <br>
+                    </div>
+                    <textarea rows="1" cols="30" pInputTextarea autoResize="autoResize" [(ngModel)]="newSourceObj['password']"></textarea>
+                    Password
+                    <br>
+            
+                    <p-button label="Create and continue" (onClick)="createAndContinue(stepper)"></p-button>
+                </div>
+
+            </div>
+
+        </div>
+        
+    </mat-step>
+    
+    <mat-step label="Status Mapping">
+
+        <div *ngIf="fromStatus == undefined || toStatus == undefined">
+            <h3>Loading statuses...</h3>
+        </div>
+
+        <div *ngFor="let to of toStatus">
+            
+            <p-autoComplete [ngModel]="statusTagMap.get(to)" (ngModelChange)="updateTagMap(to, $event)" [suggestions]="filteredStatuses" (completeMethod)="filterStatus(to, $event)" [size]="30"
+                [minLength]="1" placeholder="Select your equivalent status" [dropdown]="true">
+                <ng-template let-status pTemplate="item">
+                    <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{status}}</div>
+                    </div>
+                </ng-template>
+            </p-autoComplete>
+            -->{{to}}
+        </div>
+
+
+        <br>
+        <br>
+        
+
+        <button (click)="stepper.previous()">Back</button>
+        <button (click)="stepper.next()">Next</button>
+    </mat-step>
+
+    <mat-step label="Field Mapping">
+            <div *ngIf="fromFields == undefined || toFields == undefined">
+                <h3>Loading fields...</h3>
+            </div>
+    
+            <div *ngFor="let to of toFields">
+                
+                <p-autoComplete [ngModel]="fieldTagMap.get(to)" (ngModelChange)="updateFieldMap(to, $event)" [suggestions]="filteredFields" (completeMethod)="filterField(to, $event)" [size]="30"
+                    [minLength]="1" placeholder="Select your equivalent field" [dropdown]="true">
+                    <ng-template let-field pTemplate="item">
+                        <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                            <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{field}}</div>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+                -->{{to}}
+            </div>
+    
+    
+            <br>
+            <br>
+
+        <button (click)="mappingBackButton(stepper)">Back</button>
+        <button (click)="mappingNextButton(stepper)">Finish</button>
+    </mat-step>
+
+</mat-horizontal-stepper>

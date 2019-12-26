@@ -1,0 +1,152 @@
+<div>
+    <h2>New User</h2>
+    
+        
+        
+    <div class="form-group">
+        
+        <input pInputText type="text" class="form-control" id="firstname" name="firstname" #firstname="ngModel" requried pattern="[a-zA-Z]+" minlength="2" maxlength="30" [ngModel]="bind_firstname" (ngModelChange)="bind_firstname=$event"/>  
+        <label>First</label>
+        <div *ngIf="firstname?.errors" class="alert alert-danger">
+            <div [hidden]="!firstname.errors.required">
+                First name is required!
+            </div>
+            <div [hidden]="!firstname.errors.minlength">
+                First name must be at least 2 characters long.
+            </div>
+            <div [hidden]="!firstname.errors.maxlength">
+                First name cannot be more than 30 characters long.
+            </div>
+            <div [hidden]="!firstname.errors.pattern">
+                First name can only contain characters
+            </div>
+        </div>
+    </div>
+
+    <br>
+    
+    <div class="form-group">
+        <input pInputText type="text" class="form-control" id="lastname" name="lastname" #lastname="ngModel" requried pattern="[a-zA-Z]+" minlength="2" maxlength="30" [ngModel]="bind_lastname" (ngModelChange)="bind_lastname=$event"/>  
+        <label>Last</label>
+        <div *ngIf="lastname?.errors" class="alert alert-danger">
+            <div [hidden]="!lastname.errors.required">
+                Last name is required!
+            </div>
+            <div [hidden]="!lastname.errors.minlength">
+                Last name must be at least 2 characters long.
+            </div>
+            <div [hidden]="!lastname.errors.maxlength">
+                Last name cannot be more than 30 characters long.
+            </div>
+            <div [hidden]="!lastname.errors.pattern">
+                Last name can only contain characters
+            </div>
+        </div>
+    </div>
+
+    <br>
+    
+    <div class="form-group">
+        <input pInputText type="text" class="form-control" id="username "name="username" #username="ngModel" requried pattern="^[a-zA-Z0-9_.]*$" minlength="2" maxlength="30" [ngModel]="bind_username" (ngModelChange)="bind_username=$event"/>  
+        <label>Username</label>
+        <div *ngIf="username?.errors" class="alert alert-danger">
+            <div [hidden]="!username.errors.required">
+                Username is required!
+            </div>
+            <div [hidden]="!username.errors.minlength">
+                Username must be at least 2 characters long.
+            </div>
+            <div [hidden]="!username.errors.maxlength">
+                Username cannot be more than 30 characters long.
+            </div>
+            <div [hidden]="!username.errors.pattern">
+                Username be composed of letters, numbers, periods, and underscores
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="form-group">
+        <input pInputText type="email" class="form-control" id="email" name="email" #email="ngModel" requried pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" minlength="5" maxlength="30" [ngModel]="bind_email" (ngModelChange)="bind_email=$event"/>  
+        <label for="email">Email</label>
+        <div *ngIf="email?.errors" class="alert alert-danger">
+            <div [hidden]="!email.errors.required">
+                Email is required!
+            </div>
+            <div [hidden]="!email.errors.minlength">
+                Email must be at least 5 characters long.
+            </div>
+            <div [hidden]="!email.errors.maxlength">
+                Email cannot be more than 30 characters long.
+            </div>
+            <div [hidden]="!email.errors.pattern">
+                Must be a valid email
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="form-group">
+            <label>Manage Organization Permissions</label>
+            <br/>
+    </div>
+
+    <style>
+        .bordered {
+            width: auto;
+            height: auto;
+            padding: 2px;
+            border: 2px solid black;
+        }
+    </style>
+    
+    
+    <div class="bordered">
+        <p-dropdown [options]="organizations" [(ngModel)]="selectedOrg" placeholder="Select an organization" optionLabel="code" [showClear]="true" name="organization" (onChange)="orgSelected($event)"></p-dropdown>
+
+        <br/>
+
+        <tr *ngFor="let permission of permissions; let i = index">
+            
+            <div *ngIf="i % 3 == 0 && i + 2 < permissions.length">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-xs-3">
+                    <p-checkbox name="permissionGroup" value="{{permissions[i].name}}" label="{{permissions[i].name}}" [(ngModel)]="selectedPermissions" inputId="{{permissions[i].name}}"></p-checkbox>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-xs-3">
+                    <p-checkbox name="permissionGroup" value="{{permissions[i+1].name}}" label="{{permissions[i+1].name}}" [(ngModel)]="selectedPermissions" inputId="{{permissions[i+1].name}}"></p-checkbox>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-xs-3">
+                    <p-checkbox name="permissionGroup" value="{{permissions[i+2].name}}" label="{{permissions[i+2].name}}" [(ngModel)]="selectedPermissions" inputId="{{permissions[i+2].name}}"></p-checkbox>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <!-- Not enough permissions to fill out a full three columns, fill out 2 if available -->
+            <div *ngIf="permissions.length % 3 != 0 && i + 2 >= permissions.length && i % 3 == 0">
+                
+                <div class="col-xs-3" *ngIf="i < permissions.length">
+                    <p-checkbox name="permissionGroup" value="{{permissions[i].name}}" label="{{permissions[i].name}}" [(ngModel)]="selectedPermissions" inputId="{{permissions[i].name}}"></p-checkbox>
+                </div>
+                
+                <div class="col-xs-3" *ngIf="i + 1 < permissions.length">
+                    <p-checkbox name="permissionGroup" value="{{permissions[i+1].name}}" label="{{permissions[i+1].name}}" [(ngModel)]="selectedPermissions" inputId="{{permissions[i+1].name}}"></p-checkbox>
+                </div>
+
+            </div>
+                
+        </tr>
+    </div>
+        
+    
+    <br>
+    
+    <p-button label="Save" (onClick)="handleClick()"></p-button>
+    <p-button label="Reset" (onClick)="handleResetClick()"></p-button>
+    <p-button label="Cancel" (onClick)="handleCancelClick()"></p-button>
+
+</div>

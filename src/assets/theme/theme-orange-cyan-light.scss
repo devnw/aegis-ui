@@ -1,0 +1,33 @@
+$primaryColor:#e96443;
+$primaryTextColor:#ffffff;
+$primaryDarkColor:#BD4C30;
+$primaryDarkerColor:#973c26;
+$inputFocusBorderColor:#E67F65;
+$highlightBgColor:#06bad2;
+$highlightColorText:#ffffff;
+$datableEvenRowBgColor:#fdfafc;
+$datatableHoverBgColor:#e3e1e2;
+
+//headers
+$containerHeaderBgColor:#f2f2f7;
+$containerHeaderBorder:1px solid #c1c1c5;
+$containerHeaderTextColor:#333333;
+$containerHeaderIconColor:#848484;
+$containerHeaderIconHoverColor:#333333;
+
+$containerHeaderHoverBgColor:#d9d9de;
+$containerHeaderHoverBorder:1px solid #d9d9de;
+$containerHeaderHoverTextColor:#333333;
+$containerHeaderHoverIconColor:#333333;
+
+$containerHeaderActiveBgColor:$primaryColor;
+$containerHeaderActiveBorder:1px solid $primaryColor;
+$containerHeaderActiveTextColor:$primaryTextColor;
+$containerHeaderActiveIconColor:$primaryTextColor;
+
+$containerHeaderActiveHoverBgColor:$primaryDarkColor;
+$containerHeaderActiveHoverHoverBorder:1px solid $primaryDarkColor;
+$containerHeaderActiveHoverrTextColor:$primaryTextColor;
+$containerHeaderActiveHoverIconColor:$primaryTextColor;
+
+@import '../sass/theme/_theme';

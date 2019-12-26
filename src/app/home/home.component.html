@@ -1,0 +1,126 @@
+<div>
+
+
+    <h3>Job History</h3>
+<br>
+    <p-table #dt [columns]="cols" [value]="jobs"  [responsive]="true"  selectionMode="single"  [(selection)]="selectedJob" (onRowSelect)="onRowSelect($event)"
+    [lazy]="true" (onLazyLoad)="loadJobsLazy($event)" [paginator]="true"
+    [rows]="10" [totalRecords]="totalRecords" [loading]="loading">
+
+        <!-- <ng-template pTemplate="caption">
+            <div style="text-align: right">
+                <i class="fa fa-search" ></i>
+                <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" >
+            </div>
+        </ng-template> -->
+
+      <ng-template pTemplate="header">
+          <tr>
+              <th *ngFor="let col of cols "[pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+              </th>
+          </tr>
+          <tr>
+              <th *ngFor="let col of cols" [ngSwitch]="col.field">
+                  <input pInputText *ngSwitchCase="'payload'"   type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                  <p-dropdown *ngSwitchCase="'job_id'" [options]="jobTypesFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                  <p-dropdown *ngSwitchCase="'status'" [options]="statusesFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                  <p-dropdown *ngSwitchCase="'name'" [options]="jobConfigsFilter" [style]="{'width':'100%'}" optionLabel="name" (onChange)="dt.filter($event.value.code, col.field, 'equals')"></p-dropdown>
+                  <!-- <div *ngSwitchCase="'config_id'">
+                      {{yearFilter}}
+                      <i class="fa fa-close" (click)="yearFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"></i>
+                      <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearFilter" [min]="0" [max]="200" (onChange)="onYearChange($event, dt)"></p-slider>
+                  </div>
+                  <p-dropdown *ngSwitchCase="'status'" [options]="brands" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown>
+                  <p-multiSelect *ngSwitchCase="'payload'" [options]="colors" defaultLabel="All Colors" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>
+              -->
+            </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-job let-columns="columns">
+          <tr [pSelectableRow]="job">
+              <td *ngFor="let col of cols" >
+                  <span *ngIf="col.header==='ConfigID'"><a style="color:blue;" routerLink="/jobconfigs/{{job.config_id}}">{{job[col.field]}}</a></span>
+                  <span *ngIf="col.header!=='ConfigID'">{{job[col.field]}}</span>
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" et-job>
+          <div style="text-align:left">
+              <button type="button" pButton icon="fa fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+          </div>
+      </ng-template>
+  </p-table>
+
+  <p-dialog header="Job History Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="500" styleClass="customDialog">
+      <div class="col-md-10 col-lg-10 col-sm-8" *ngIf="job">
+          <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+              <!-- <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !historyid.valid }">
+                  <label for="historyid">History ID</label>
+                  <input type="text" class="form-control" name="historyid" [(ngModel)]="job.history_id" #historyid="ngModel" required />
+                  <div *ngIf="f.submitted && !historyid.valid" class="help-block">Username is required</div>
+              </div>
+              <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !configid.valid }">
+                  <label for="configid">Config ID</label>
+                  <input type="text" class="form-control" name="configid" [(ngModel)]="job.config_id" #configid="ngModel" required />
+                  <div *ngIf="f.submitted && !configid.valid" class="help-block">Config ID is required</div>
+              </div>
+              <div class="form-group" >
+                <label for="something1">Configs</label>
+                <p-dropdown name="something1" dataKey="code" [options]="jobConfigs" [style]="{'width':'150px'}" [(ngModel)]="job.config_id" placeholder="Select a Config" optionLabel="name" ></p-dropdown>
+            </div>
+              <div class="form-group" >
+                  <label for="something">Job Type</label>
+                  <p-dropdown name="something" [options]="jobTypes" [style]="{'width':'150px'}" [(ngModel)]="selectedJob" placeholder="Select a Brand" optionLabel="name" ></p-dropdown>
+              </div>
+
+              <div class="form-group" >
+                  <label for="status">Status</label>
+                  <p-dropdown  name="status" [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name"  [style]="{'width':'150px'}"  placeholder="Select a Brand" ></p-dropdown>
+              </div> -->
+              <div class="form-group"[ngClass]="{ 'has-error': f.submitted && !types.valid }" >
+                  <label for="configid">Job Type</label>
+                  <select class="form-control input-margins" name="types" [(ngModel)]="job.job_id" #types="ngModel" required >
+                      <option  *ngFor="let jobType of jobTypes" value= {{jobType.code}}>
+                        {{jobType.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="f.submitted && !types.valid" class="help-block">Job Type is required</div>
+              </div>
+              <div class="form-group"[ngClass]="{ 'has-error': f.submitted && !configss.valid }" >
+                  <label for="configid">Job Config</label>
+                  <select class="form-control input-margins" name="configss" [(ngModel)]="job.config_id" #configss="ngModel" required  >
+                      <option  *ngFor="let jobConfig of jobConfigs" value= {{jobConfig.code}}>
+                        {{jobConfig.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="f.submitted && !configss.valid" class="help-block">JobConfig is required</div>
+              </div>
+                   <div class="form-group"[ngClass]="{ 'has-error': f.submitted && !pdestatuses.valid }" >
+                  <label for="configid">Status</label>
+                  <select class="form-control input-margins" name="pdestatuses" [(ngModel)]="job.status" #pdestatuses="ngModel" required >
+                      <option  *ngFor="let status of statuses" value= {{status.code}}>
+                        {{status.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="f.submitted && !pdestatuses.valid" class="help-block">Status is required</div>
+              </div>
+              <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !payload.valid }">
+                  <label for="payload">payload</label>
+                  <textarea type="text" class="form-control input-margins" name="payload" [(ngModel)]="job.payload" #payload="ngModel" required ></textarea>
+                  <div *ngIf="f.submitted && !payload.valid" class="help-block">Payload is required</div>
+              </div>
+              <br>
+              <p-footer>
+                  <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                      <button type="button" pButton icon="fa fa-close" (click)="delete()" label="Delete"></button>
+                      <button type="submit" pButton icon="fa fa-check" label="Save"></button>
+                  </div>
+              </p-footer>
+          </form>
+
+      </div>
+
+  </p-dialog>
+</div>

@@ -1,0 +1,110 @@
+<div class="layout-topbar">
+    <a href="#" id="layout-menu-btn" class="menu-btn" (click)="app.onMenuButtonClick($event)">
+        <i class="fa fa-bars"></i>
+    </a>
+
+    <!-- <div class="topbar-search">
+        <input type="text" class="ui-widget" />
+        <i class="fa fa-search"></i>
+    </div> -->
+
+    <div class="layout-topbar-menu-wrapper">
+        <ul class="topbar-menu fadeInDown" [ngClass]="{'topbar-menu-active': app.topbarMenuActive}">
+            <li class="profile-item" #profile [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}">
+                <a href="#" (click)="app.onTopbarItemClick($event, profile)">
+                    <img src="../assets/layout/images/avatar4.png" alt="manhattan-layout" />
+                    <span class="topbar-item-name profile-name">{{username}} - {{selectedUserOrg?.code}}</span>
+                </a>
+
+                <ul class="fadeInDown animated">
+                    <!-- <li role="menuitem">
+                        <a href="#" (click)="app.onTopbarSubItemClick($event)">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" (click)="app.onTopbarSubItemClick($event)">
+                            <i class="fa fa-fw fa-user-secret"></i>
+                            <span>Privacy</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" (click)="app.onTopbarSubItemClick($event)">
+                            <i class="fa fa-fw fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li> -->
+                    <li role="menuitem">
+                        <a href="/login" (click)="logout()">
+                            <i class="fa fa-fw fa-sign-out"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li #messages [ngClass]="{'active-topmenuitem':app.activeTopbarItem === messages}">
+                <a href="#" (click)="app.onTopbarItemClick($event, messages)">
+                    <i class="topbar-icon swing fa fa-fw fa-envelope-o"></i>
+                    <span class="topbar-badge rubberBand">5</span>
+                    <span class="topbar-item-name">Messages</span>
+                </a>
+                <ul class="fadeInDown animated">
+                    <li role="menuitem">
+                        <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClick($event)">
+                            <img src="../assets/layout/images/avatar1.png" alt="manhattan-layout" width="35"/>
+                            <span>Give me a call</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClick($event)">
+                            <img src="../assets/layout/images/avatar2.png" alt="manhattan-layout" width="35"/>
+                            <span>Reports attached</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClick($event)">
+                            <img src="../assets/layout/images/avatar3.png" alt="manhattan-layout" width="35"/>
+                            <span>About your invoice</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClick($event)">
+                            <img src="../assets/layout/images/avatar2.png" alt="manhattan-layout" width="35"/>
+                            <span>Meeting today</span>
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a href="#" class="topbar-message" (click)="app.onTopbarSubItemClick($event)">
+                            <img src="../assets/layout/images/avatar.png" alt="manhattan-layout" width="35"/>
+                            <span>Out of office</span>
+                        </a>
+                    </li>
+                </ul>
+            </li> -->
+            <li #organizations [ngClass]="{'active-topmenuitem':app.activeTopbarItem === organizations}">
+                <a href="#" (click)="app.onTopbarItemClick($event, organizations)">
+                    <i class="topbar-icon fa fa-fw fa-globe"></i>
+                    <span class="topbar-item-name">Organizations</span>
+                </a>
+                <ul class="fadeInDown animated">
+                    <div *ngFor="let org of orgsUserIsAMemberOf">
+                        <li role="menuitem" [class.active]="true">
+                            <a (click)="changeOrganization(org.code)">
+                                <span>{{org.code}}</span>    
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </li>
+        </ul>
+
+        <a href="#" class="topbar-menu-btn" (click)="app.onTopbarMenuButtonClick($event)">
+            <img src="assets/layout/images/avatar4.png" alt="manhattan-layout" />
+        </a>
+
+        <a href="#" class="rightpanel-btn"[ngClass]="{'rightpanel-btn-active': app.rightPanelActive}" (click)="app.onRightPanelButtonClick($event)">
+            <i class="topbar-icon fa fa-fw fa-outdent"></i>
+        </a>
+    </div>
+</div>

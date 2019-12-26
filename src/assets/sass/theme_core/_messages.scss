@@ -1,0 +1,136 @@
+body {
+    .ui-messages {
+        padding: $messagesPadding;
+        margin: $messagesMargin;
+        
+        &.ui-messages-info {
+            background-color: $infoMessageBgColor;
+            border: $infoMessageBorder;
+            color: $infoMessageTextColor;
+            
+            .ui-messages-icon {
+                color: $infoMessageIconColor;
+            }
+            
+            .ui-messages-close {
+                color:  $infoMessageIconColor;
+            }
+        }
+
+        &.ui-messages-success {
+            background-color: $successMessageBgColor;
+            border: $successMessageBorder;
+            color: $successMessageTextColor;
+            
+            .ui-messages-icon {
+                color: $successMessageIconColor;
+            }
+            
+            .ui-messages-close {
+                color:  $successMessageIconColor;
+            }
+        }
+
+        &.ui-messages-warn {
+            background-color: $warnMessageBgColor;
+            border: $warnMessageBorder;
+            color: $warnMessageTextColor;
+            
+            .ui-messages-icon {
+                color: $warnMessageIconColor;
+            }
+            
+            .ui-messages-close {
+                color:  $warnMessageIconColor;
+            }
+        }
+
+        &.ui-messages-error {
+            background-color: $errorMessageBgColor;
+            border: $errorMessageBorder;
+            color: $errorMessageTextColor;
+            
+            .ui-messages-icon {
+                color: $errorMessageIconColor;
+            }
+            
+            .ui-messages-close {
+                color:  $errorMessageIconColor;
+            }
+        }
+        
+        .ui-messages-close {
+            font-size: $messageCloseIconFontSize;
+            top: .25em;
+            right: .5em;
+        }
+
+        .ui-messages-icon {
+            font-size: $messagesIconFontSize;
+        }
+    }
+        
+    .ui-growl {
+        top: $growlTopLocation;
+        
+        .ui-growl-item-container {
+            margin: $growlMargin;
+            @include opacity($growlOpacity);
+            @include shadow($growlShadow);
+
+            .ui-growl-item {
+                padding: $growlPadding;
+
+                .ui-growl-message {
+                    margin: $growlMessageTextMargin;
+                }
+    
+                .ui-growl-image {
+                    font-size: $growlIconFontSize;
+                }
+            }
+            
+            &.ui-growl-message-info {
+                background-color: $infoMessageBgColor;
+                border: $infoMessageBorder;
+                color: $infoMessageTextColor;
+                
+                .ui-growl-image {
+                    color: $infoMessageIconColor;
+                }
+            }  
+
+            &.ui-growl-message-success {
+                background-color: $successMessageBgColor;
+                border: $successMessageBorder;
+                color: $successMessageTextColor;
+                
+                .ui-growl-image {
+                    color: $successMessageIconColor;
+                }
+            }  
+            
+            &.ui-growl-message-warn {
+                background-color: $warnMessageBgColor;
+                border: $warnMessageBorder;
+                color: $warnMessageTextColor;
+                
+                .ui-growl-image {
+                    color: $warnMessageIconColor;
+                }
+            }
+            
+            &.ui-growl-message-error {
+                background-color: $errorMessageBgColor;
+                border: $errorMessageBorder;
+                color: $errorMessageTextColor;
+                
+                .ui-growl-image {
+                    color: $errorMessageIconColor;
+                }
+            }
+        
+        }
+    }
+    
+}

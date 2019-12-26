@@ -1,0 +1,40 @@
+<h3>Bulk Update</h3>
+
+<br>
+
+<div style="width: 100%;">
+
+    <p-dialog [(visible)]="display" modal="true">
+        {{displayMessage}}
+        <p-footer>
+                <p-button label="Yes" (onClick)="handleClick($event)"></p-button>
+                <p-button label="No" (onClick)="display=false;fileUploaded=false;"></p-button>
+        </p-footer>
+        
+    </p-dialog>
+
+    <div *ngIf="!fileUploaded">
+        
+        
+        <p-dropdown [options]="urls" [(ngModel)]="selectedUrl" placeholder="Select a URL"></p-dropdown>
+        
+       <br>
+       <br>
+        
+        <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".csv">
+        
+    </div>
+
+    <div *ngIf="fileUploaded">
+        
+        <p-table [value]="serverMessages">
+            <ng-template pTemplate="body" let-message let-columns="columns">
+                <tr>
+                    {{message}}
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+
+</div>

@@ -1,0 +1,18 @@
+<div class="layout-sidebar" (click)="onMenuClick($event)" (mouseenter)="app.onMenuMouseEnter($event)" (mouseleave)="app.onMenuMouseLeave($event)">
+    <div class="layout-sidebar-logo">
+        <a href="/">
+            <img src="../assets/layout/images/p_logo.png" alt="manhattan-layout" />
+        </a>
+        <a href="#" id="layout-sidebar-anchor" class="layout-sidebar-anchor" title="Slim Menu" (click)="app.onAnchorClick($event)">
+            <i class="fa"></i>
+        </a>
+    </div>
+
+    <p-scrollPanel #layoutMenuScroller [style]="{height: '100%'}">
+        <div class="sidebar-scroll-content">
+            <div class="layout-menu-container">
+                <ul app-submenu [item]="model" root="true" class="layout-menu" visible="true" [reset]="reset" parentActive="true"></ul>
+            </div>
+        </div>
+    </p-scrollPanel>
+</div>

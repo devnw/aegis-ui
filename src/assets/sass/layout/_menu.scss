@@ -1,0 +1,203 @@
+.layout-wrapper {
+    .layout-sidebar {
+        position: fixed;
+        z-index: 999;
+        background: $sidebarBgColor;
+
+        .layout-sidebar-logo {
+            height: 64px;
+            padding: 16px;
+            @include background-gradient-left2right($sidebarTopStartBgColor,$sidebarTopEndBgColor);
+            @include clearfix();
+
+            img {
+                float: right;
+                height: 32px;
+            }
+
+            .layout-sidebar-anchor {
+                font-size: 24px;
+                color: $sidebarAnchorColor;
+                display: none;
+
+                i {
+                    @include icon_override("\f10c");
+                }
+            }
+        }
+
+        .layout-menu {
+            list-style-type: none;
+            margin: 16px 0 0 0;
+            padding: 0;
+
+            > li {
+                > a {
+                    &:hover {
+                        background-color: $menuitemHoverBgColor;
+                    }
+                }
+
+                > ul {
+                    border-left: 4px solid transparent;
+                }
+
+                &.active-menuitem {
+                    > a {
+                        color: $menuitemActiveColor;
+                        padding-left: 12px;
+                        border-left: 4px solid $sidebarTopStartBgColor;
+
+                        &:hover {
+                            background-color: $menuitemHoverBgColor;
+                        }
+
+                        i:first-child {
+                            color: $rootMenuitemActiveIconColor;
+                            background-color: $menuitemActiveColor;
+                        }
+                    }
+
+                    > ul {
+                        border-left-width: 4px;
+                        border-left-style: solid;
+                        @include border-gradient-top2bottom($sidebarTopStartBgColor,$sidebarTopEndBgColor);
+                    }
+                }
+            }
+
+            li {
+                width: 100%;
+
+                > a {
+                    color: $menuitemTextColor;
+                    display: block;
+                    padding: 4px 16px;
+                    @include transition(background-color $transitionDuration);
+                    @include clearfix();
+
+                    i:first-child {
+                        color: $menuitemTextColor;
+                        background-color: $menuitemIconBgColor;
+                        float: right;
+                        width: 36px;
+                        height: 36px;
+                        line-height: 36px;
+                        font-size: 18px;
+                    }
+
+                    .layout-submenu-toggler {
+                        float: right;
+                        font-size: 18px;
+                        margin-right: 12px;
+                        margin-top: 9px;
+                        @include transition(all $transitionDuration);
+                    }
+
+                    span {
+                        margin-top: 9px;
+                        display: inline-block;
+                    }
+                }
+
+                &.active-menuitem {
+                    background-color: $activeMenuitemBgColor;
+
+                    > a {
+                        color: $menuitemActiveColor;
+
+                        .layout-submenu-toggler {
+                            @include rotate(-180deg);
+                        }
+                    }
+                }
+
+                ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: $submenuBgColor;
+
+                    li {
+                        > a:hover {
+                            background-color: $submenuitemHoverBgColor;
+                        }
+
+                        a {
+                            padding-left: 32px;
+                        }
+
+                        li {
+                            a {
+                                padding-left: 48px;
+                            }
+
+                            li {
+                                a {
+                                    padding-left: 64px;
+                                }
+
+                                li {
+                                    a {
+                                        padding-left: 80px;
+                                    }
+
+                                    li {
+                                        a {
+                                            padding-left: 96px;
+                                        }
+
+                                        li {
+                                            a {
+                                                padding-left: 110px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .menuitem-badge {
+                float: right;
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
+                margin-top: 9px;
+                text-align: center;
+                background-color: $menuitemBadgeBgColor;
+                color: $menuitemBadgeTextColor;
+                font-size: $fontSize - 2;
+                font-weight: 700;
+                line-height: 16px;
+                @include border-radius(50%);
+            }
+        }
+
+        .ui-scrollpanel {
+            background-color: transparent;
+            border-radius: 0;
+            border: none;
+
+            .ui-scrollpanel-bar {
+                background-color: #aaaaaa;
+                opacity: 0.3;
+                filter: alpha(opacity=30);
+            }
+
+            .ui-scrollpanel-hidden {
+                display: block;
+                visibility: hidden;
+            }
+
+            .sidebar-scroll-content {
+                width: 288px;
+                padding-right: 18px;
+                padding-bottom: 170px;
+            }
+        }
+    }
+}
