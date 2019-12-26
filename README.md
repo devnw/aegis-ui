@@ -1,27 +1,36 @@
-# Ui
+# Aegis UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.7.
+1- install vscode as IDE for Angular: https://code.visualstudio.com/download
 
-## Development server
+2- using brew install node "brew install node" or install Node.js from this link: https://nodejs.org/en/download/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+3- Install CLI for Angular by running this command: npm install -g @angular/cli
 
-## Code scaffolding
+   For this step: be aware that you might get an issue stating that you don't have permissions. If yes, continue to step 4, if not skip step 4
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+4- Do the steps below to fix the permission issue: 
 
-## Build
+    Run this command to install nvm(Node Version manager): 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
 
-## Running unit tests
+     Verify installition by running this command: 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+              command -v nvm
 
-## Running end-to-end tests
+              The result should be : nvm . If you get an error instead, just close you terminal and open new one.  
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+    Then run these two commands to install Node.js using nvm: 
+    nvm install node
+     nvm use node
+    Repeat STEP:3 again
 
-## Further help
+5- install NPM "npm install"
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+6- Now CLI is installed, you can run these commands below to create and deploy you Angular application (note: you need to be at the specific folder level at the terminal, where you want your application to be create):
+
+ng new my-app 
+
+cd my-app 
+
+ng serve --open
