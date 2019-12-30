@@ -1,6 +1,9 @@
 # Aegis UI
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
+
+**NOTE: We're still building the Readme files for Aegis.**
+
 1- install vscode as IDE for Angular: https://code.visualstudio.com/download
 
 2- using brew install node "brew install node" or install Node.js from this link: https://nodejs.org/en/download/
